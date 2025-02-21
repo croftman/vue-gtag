@@ -1,15 +1,15 @@
-import addConfiguration from "@/add-configuration";
-import * as api from "@/api";
-import VueGtag from "@/index";
-import track from "@/track";
-import * as utils from "@/utils";
-import flushPromises from "flush-promises";
 import { createApp } from "vue";
+import flushPromises from "flush-promises";
 import { createMemoryHistory, createRouter } from "vue-router";
+import VueGtag from "@/index";
+import * as api from "@/api";
+import * as utils from "@/utils";
+import addConfiguration from "@/add-configuration";
+import track from "@/track";
 
-vi.mock("@/track");
-vi.mock("@/api");
-vi.mock("@/add-configuration");
+jest.mock("@/track");
+jest.mock("@/api");
+jest.mock("@/add-configuration");
 
 const Home = { template: "<div></div>" };
 const About = { template: "<div></div>" };
@@ -20,6 +20,8 @@ describe("page-tracker", () => {
   let router;
 
   beforeAll(() => {
+    delete window.location;
+
     window.location = {
       href: "window_location_href_value",
     };
@@ -38,12 +40,12 @@ describe("page-tracker", () => {
       ],
     });
 
-    vi.spyOn(window.console, "warn").mockReturnValue();
-    vi.spyOn(utils, "load").mockResolvedValue();
+    jest.spyOn(window.console, "warn").mockReturnValue();
+    jest.spyOn(utils, "load").mockResolvedValue();
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   test("waits router ready before start tracking", async () => {
@@ -51,7 +53,7 @@ describe("page-tracker", () => {
 
     app.use(router);
 
-    vi.spyOn(router, "isReady").mockResolvedValue();
+    jest.spyOn(router, "isReady").mockResolvedValue();
 
     app.use(
       VueGtag,
@@ -60,13 +62,13 @@ describe("page-tracker", () => {
           id: 1,
         },
       },
-      router,
+      router
     );
 
     router.push("/");
     await flushPromises();
 
-    expect(router.isReady).toHaveBeenCalled();
+    expect(router.isReady).toHaveBeenCalledBefore(api.config);
   });
 
   test("fires the config hit", async () => {
@@ -81,7 +83,7 @@ describe("page-tracker", () => {
           id: 1,
         },
       },
-      router,
+      router
     );
 
     router.push("/");
@@ -105,7 +107,7 @@ describe("page-tracker", () => {
           id: 1,
         },
       },
-      router,
+      router
     );
 
     router.push("/");
@@ -122,7 +124,7 @@ describe("page-tracker", () => {
       expect.objectContaining({
         path: "/",
         name: "home",
-      }),
+      })
     );
 
     expect(track).toHaveBeenNthCalledWith(
@@ -134,7 +136,7 @@ describe("page-tracker", () => {
       expect.objectContaining({
         path: "/",
         name: "home",
-      }),
+      })
     );
 
     expect(track).toHaveBeenNthCalledWith(
@@ -146,7 +148,7 @@ describe("page-tracker", () => {
       expect.objectContaining({
         path: "/about",
         name: "about",
-      }),
+      })
     );
 
     expect(track).toHaveBeenCalledTimes(3);
@@ -154,7 +156,7 @@ describe("page-tracker", () => {
 
   test("fires the onBeforeTrack method", async () => {
     const app = createApp();
-    const onBeforeTrackSpy = vi.fn();
+    const onBeforeTrackSpy = jest.fn();
 
     app.use(router);
 
@@ -166,7 +168,7 @@ describe("page-tracker", () => {
           id: 1,
         },
       },
-      router,
+      router
     );
 
     router.push("/");
@@ -183,7 +185,7 @@ describe("page-tracker", () => {
       expect.objectContaining({
         path: "/",
         name: "home",
-      }),
+      })
     );
 
     expect(onBeforeTrackSpy).toHaveBeenCalledTimes(1);
@@ -191,7 +193,7 @@ describe("page-tracker", () => {
 
   test("fires the onAfterTrack method", async () => {
     const app = createApp();
-    const onAfterTrackSpy = vi.fn();
+    const onAfterTrackSpy = jest.fn();
 
     app.use(router);
 
@@ -203,7 +205,7 @@ describe("page-tracker", () => {
           id: 1,
         },
       },
-      router,
+      router
     );
 
     router.push("/");
@@ -220,7 +222,7 @@ describe("page-tracker", () => {
       expect.objectContaining({
         path: "/",
         name: "home",
-      }),
+      })
     );
 
     expect(onAfterTrackSpy).toHaveBeenCalledTimes(1);
@@ -228,7 +230,7 @@ describe("page-tracker", () => {
 
   test("remove routes from tracking based on path", async () => {
     const app = createApp();
-    const onAfterTrackSpy = vi.fn();
+    const onAfterTrackSpy = jest.fn();
     const router = createRouter({
       history: createMemoryHistory(),
       routes: [
@@ -249,7 +251,7 @@ describe("page-tracker", () => {
           id: 1,
         },
       },
-      router,
+      router
     );
 
     router.push("/");
@@ -265,7 +267,7 @@ describe("page-tracker", () => {
       1,
       expect.objectContaining({
         path: "/",
-      }),
+      })
     );
 
     expect(track).toHaveBeenCalledTimes(1);

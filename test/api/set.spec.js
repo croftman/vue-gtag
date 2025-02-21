@@ -1,7 +1,7 @@
-import query from "@/api/query";
 import set from "@/api/set";
+import query from "@/api/query";
 
-vi.mock("@/api/query");
+jest.mock("@/api/query");
 
 describe("set", () => {
   test("fires set", () => {

@@ -1,5 +1,5 @@
-import query from "@/api/query";
 import { getOptions } from "@/options";
+import query from "@/api/query";
 
 export default (name, params = {}) => {
   const { includes, defaultGroupName } = getOptions();

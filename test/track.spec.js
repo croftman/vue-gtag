@@ -1,11 +1,11 @@
-import * as api from "@/api";
-import VueGtag from "@/index";
-import * as utils from "@/utils";
-import flushPromises from "flush-promises";
 import { createApp } from "vue";
+import VueGtag from "@/index";
 import { createMemoryHistory, createRouter } from "vue-router";
+import flushPromises from "flush-promises";
+import * as api from "@/api";
+import * as utils from "@/utils";
 
-vi.mock("@/api");
+jest.mock("@/api");
 
 const Home = { template: "<div></div>" };
 const About = { template: "<div></div>" };
@@ -15,6 +15,8 @@ describe("track", () => {
   let router;
 
   beforeAll(() => {
+    delete window.location;
+
     window.location = {
       href: "window_location_href_value",
     };
@@ -33,12 +35,12 @@ describe("track", () => {
       ],
     });
 
-    vi.spyOn(window.console, "warn").mockReturnValue();
-    vi.spyOn(utils, "load").mockResolvedValue();
+    jest.spyOn(window.console, "warn").mockReturnValue();
+    jest.spyOn(utils, "load").mockResolvedValue();
   });
 
   afterEach(() => {
-    vi.resetAllMocks();
+    jest.resetAllMocks();
   });
 
   describe("pageview", () => {
@@ -53,7 +55,7 @@ describe("track", () => {
             id: 1,
           },
         },
-        router,
+        router
       );
 
       router.push("/");
@@ -63,7 +65,7 @@ describe("track", () => {
         expect.objectContaining({
           name: "home",
           path: "/",
-        }),
+        })
       );
     });
 
@@ -78,7 +80,7 @@ describe("track", () => {
             id: 1,
           },
         },
-        router,
+        router
       );
 
       router.push("/about");
@@ -87,7 +89,7 @@ describe("track", () => {
       expect(api.pageview).toHaveBeenCalledWith(
         expect.objectContaining({
           path: "/about",
-        }),
+        })
       );
     });
   });
@@ -107,7 +109,7 @@ describe("track", () => {
             id: 1,
           },
         },
-        router,
+        router
       );
 
       router.push("/");
@@ -132,7 +134,7 @@ describe("track", () => {
             id: 1,
           },
         },
-        router,
+        router
       );
 
       router.push("/");
@@ -140,7 +142,7 @@ describe("track", () => {
       await flushPromises();
 
       expect(console.warn).toHaveBeenCalledWith(
-        `[vue-gtag] Missing "appName" property inside the plugin options.`,
+        `[vue-gtag] Missing "appName" property inside the plugin options.`
       );
     });
 
@@ -157,7 +159,7 @@ describe("track", () => {
             id: 1,
           },
         },
-        router,
+        router
       );
 
       router.push("/about");
@@ -165,7 +167,7 @@ describe("track", () => {
       await flushPromises();
 
       expect(console.warn).toHaveBeenCalledWith(
-        `[vue-gtag] Missing "name" property in the route.`,
+        `[vue-gtag] Missing "name" property in the route.`
       );
     });
   });
@@ -187,7 +189,7 @@ describe("track", () => {
             id: 1,
           },
         },
-        router,
+        router
       );
 
       router.push("/");
@@ -219,7 +221,7 @@ describe("track", () => {
             id: 1,
           },
         },
-        router,
+        router
       );
 
       router.push("/");
@@ -251,7 +253,7 @@ describe("track", () => {
             id: 1,
           },
         },
-        router,
+        router
       );
 
       router.push("/about");
@@ -264,14 +266,14 @@ describe("track", () => {
         1,
         expect.objectContaining({
           path: "/about",
-        }),
+        })
       );
 
       expect(api.pageview).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
           path: "/about",
-        }),
+        })
       );
     });
 
@@ -287,7 +289,7 @@ describe("track", () => {
             id: 1,
           },
         },
-        router,
+        router
       );
 
       router.push("/about");
@@ -299,7 +301,7 @@ describe("track", () => {
       expect(api.pageview).toHaveBeenCalledWith(
         expect.objectContaining({
           path: "/about",
-        }),
+        })
       );
       expect(api.pageview).toHaveBeenCalledTimes(1);
     });

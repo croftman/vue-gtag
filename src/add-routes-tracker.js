@@ -1,9 +1,9 @@
-import addConfiguration from "@/add-configuration";
-import { getOptions } from "@/options";
-import { getRouter } from "@/router";
-import track from "@/track";
-import { isFn } from "@/utils";
 import { nextTick } from "vue";
+import { isFunction } from "@vue/shared";
+import { getRouter } from "@/router";
+import { getOptions } from "@/options";
+import addConfiguration from "@/add-configuration";
+import track from "@/track";
 
 const isRouteExcluded = (route) => {
   const { pageTrackerExcludedRoutes: routes } = getOptions();
@@ -33,13 +33,13 @@ export default () => {
           return;
         }
 
-        if (isFn(onBeforeTrack)) {
+        if (isFunction(onBeforeTrack)) {
           onBeforeTrack(to, from);
         }
 
         track(to, from);
 
-        if (isFn(onAfterTrack)) {
+        if (isFunction(onAfterTrack)) {
           onAfterTrack(to, from);
         }
       });

@@ -1,9 +1,9 @@
 import attachApi from "@/attach-api";
+import { setOptions, getOptions } from "@/options";
 import bootstrap from "@/bootstrap";
-import { getOptions, setOptions } from "@/options";
 import { setRouter } from "@/router";
 
-const install = (app, options, router) => {
+const install = (app, options = {}, router) => {
   attachApi(app);
   setOptions(options);
   setRouter(router);

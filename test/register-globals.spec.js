@@ -1,21 +1,21 @@
-import * as api from "@/api";
+import { createApp } from "vue";
 import VueGtag from "@/index";
 import flushPromises from "flush-promises";
+import * as api from "@/api";
 import mockDate from "mockdate";
-import { createApp } from "vue";
 
 mockDate.set("2021-04-20 10:00:00");
 
-vi.mock("@/api");
+jest.mock("@/api");
 
 describe("registerGlobals", () => {
   beforeEach(() => {
-    window.gtag = undefined;
-    window.dataLayer = undefined;
+    delete window.gtag;
+    delete window.dataLayer;
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   test("register global dataLayer and globalObject", () => {
@@ -68,7 +68,7 @@ describe("registerGlobals", () => {
       },
     });
 
-    expect(window.dataLayer).toEqual([["js", new Date()]]);
+    expect(window.dataLayer).toMatchSnapshot();
   });
 
   test("optOut when disabled", async () => {

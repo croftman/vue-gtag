@@ -1,12 +1,12 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`options > getDefaultParams 1`] = `
-{
+exports[`options getDefaultParams 1`] = `
+Object {
   "appName": null,
   "bootstrap": true,
-  "config": {
+  "config": Object {
     "id": null,
-    "params": {
+    "params": Object {
       "send_page_view": false,
     },
   },
@@ -24,7 +24,7 @@ exports[`options > getDefaultParams 1`] = `
   "onError": null,
   "onReady": null,
   "pageTrackerEnabled": true,
-  "pageTrackerExcludedRoutes": [],
+  "pageTrackerExcludedRoutes": Array [],
   "pageTrackerPrependBase": true,
   "pageTrackerScreenviewEnabled": false,
   "pageTrackerSkipSamePath": true,
@@ -33,13 +33,13 @@ exports[`options > getDefaultParams 1`] = `
 }
 `;
 
-exports[`options > set and get options 1`] = `
-{
+exports[`options set and get options 1`] = `
+Object {
   "appName": null,
   "bootstrap": true,
-  "config": {
+  "config": Object {
     "id": 1,
-    "params": {
+    "params": Object {
       "send_page_view": false,
     },
   },
@@ -57,7 +57,7 @@ exports[`options > set and get options 1`] = `
   "onError": null,
   "onReady": null,
   "pageTrackerEnabled": true,
-  "pageTrackerExcludedRoutes": [],
+  "pageTrackerExcludedRoutes": Array [],
   "pageTrackerPrependBase": true,
   "pageTrackerScreenviewEnabled": false,
   "pageTrackerSkipSamePath": true,

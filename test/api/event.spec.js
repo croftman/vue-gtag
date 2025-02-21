@@ -1,13 +1,13 @@
+import { createApp } from "vue";
 import event from "@/api/event";
 import query from "@/api/query";
 import VueGtag from "@/index";
-import { createApp } from "vue";
 
-vi.mock("@/api/query");
+jest.mock("@/api/query");
 
 describe("event", () => {
   afterEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   test("fires an event", () => {

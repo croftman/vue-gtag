@@ -1,5 +1,5 @@
-import event from "@/api/event";
 import { getOptions } from "@/options";
+import event from "@/api/event";
 
 export default (param) => {
   const { appName } = getOptions();

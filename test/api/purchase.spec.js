@@ -1,7 +1,7 @@
-import event from "@/api/event";
 import purchase from "@/api/purchase";
+import event from "@/api/event";
 
-vi.mock("@/api/event");
+jest.mock("@/api/event");
 
 describe("purchase", () => {
   test("fires a purchase event", () => {

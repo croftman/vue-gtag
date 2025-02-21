@@ -1,9 +1,9 @@
-import addConfiguration from "@/add-configuration";
+import { load } from "@/utils";
+import registerGlobals from "@/register-globals";
 import addRoutesTracker from "@/add-routes-tracker";
 import { getOptions } from "@/options";
-import registerGlobals from "@/register-globals";
 import { getRouter } from "@/router";
-import { load } from "@/utils";
+import addConfiguration from "@/add-configuration";
 
 export default () => {
   const {

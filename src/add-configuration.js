@@ -12,8 +12,8 @@ export default () => {
   api.query("config", config.id, mergeDefaultParams(config.params));
 
   if (Array.isArray(includes)) {
-    for (const domain of includes) {
+    includes.forEach((domain) => {
       api.query("config", domain.id, mergeDefaultParams(domain.params));
-    }
+    });
   }
 };

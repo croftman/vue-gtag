@@ -1,29 +1,29 @@
-import addConfiguration from "@/add-configuration";
-import addRoutesTracker from "@/add-routes-tracker";
-import * as api from "@/api";
-import bootstrap from "@/bootstrap";
-import VueGtag from "@/index";
-import registerGlobals from "@/register-globals";
-import * as utils from "@/utils";
-import flushPromises from "flush-promises";
-import MockDate from "mockdate";
 import { createApp } from "vue";
+import VueGtag from "@/index";
+import MockDate from "mockdate";
 import { createMemoryHistory, createRouter } from "vue-router";
+import flushPromises from "flush-promises";
+import registerGlobals from "@/register-globals";
+import addRoutesTracker from "@/add-routes-tracker";
+import * as utils from "@/utils";
+import * as api from "@/api";
+import addConfiguration from "@/add-configuration";
+import bootstrap from "@/bootstrap";
 
 MockDate.set("06-03-1997 10:00:00");
 
-vi.mock("@/register-globals");
-vi.mock("@/add-routes-tracker");
-vi.mock("@/add-configuration");
-vi.mock("@/api");
+jest.mock("@/register-globals");
+jest.mock("@/add-routes-tracker");
+jest.mock("@/add-configuration");
+jest.mock("@/api");
 
 describe("boostrap", () => {
   beforeEach(() => {
-    vi.spyOn(utils, "load").mockResolvedValue();
+    jest.spyOn(utils, "load").mockResolvedValue();
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   test("loads gtag script", async () => {
@@ -55,7 +55,7 @@ describe("boostrap", () => {
 
     expect(utils.load).toHaveBeenCalledWith(
       "foo.com?id=1&l=dataLayer",
-      expect.any(Object),
+      expect.any(Object)
     );
   });
 
@@ -129,7 +129,7 @@ describe("boostrap", () => {
           id: 1,
         },
       },
-      router,
+      router
     );
 
     expect(addRoutesTracker).toHaveBeenCalled();
@@ -151,7 +151,7 @@ describe("boostrap", () => {
 
   test("uses onReady callback after script is loaded", async () => {
     const app = createApp();
-    const spy = vi.fn();
+    const spy = jest.fn();
 
     Object.defineProperty(window, "gtag", {
       get: () => "global_registerd_value",
@@ -171,7 +171,7 @@ describe("boostrap", () => {
 
   test("uses onError callback after script failed loading", async () => {
     const app = createApp();
-    const spy = vi.fn();
+    const spy = jest.fn();
     const error = new Error("error_value");
 
     utils.load.mockRejectedValue(error);

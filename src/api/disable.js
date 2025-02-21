@@ -1,5 +1,5 @@
-import { getOptions } from "@/options";
 import { isBrowser } from "@/utils";
+import { getOptions } from "@/options";
 
 const assignGlobalProperty = (id, value) => {
   if (!isBrowser()) {
@@ -15,8 +15,6 @@ export default (value = true) => {
   assignGlobalProperty(config.id, value);
 
   if (Array.isArray(includes)) {
-    for (const domain of includes) {
-      assignGlobalProperty(domain.id, value);
-    }
+    includes.forEach((domain) => assignGlobalProperty(domain.id, value));
   }
 };

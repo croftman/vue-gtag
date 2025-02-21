@@ -1,11 +1,11 @@
-import event from "@/api/event";
-import pageview from "@/api/pageview";
-import VueGtag from "@/index";
-import flushPromises from "flush-promises";
 import { createApp } from "vue";
-import { createMemoryHistory, createRouter } from "vue-router";
+import { createRouter, createMemoryHistory } from "vue-router";
+import VueGtag from "@/index";
+import pageview from "@/api/pageview";
+import event from "@/api/event";
+import flushPromises from "flush-promises";
 
-vi.mock("@/api/event");
+jest.mock("@/api/event");
 
 const Home = { template: "<div><div>" };
 const About = { template: "<div><div>" };
@@ -15,6 +15,8 @@ describe("pageview", () => {
   const { location } = window;
 
   beforeAll(() => {
+    delete window.location;
+
     window.location = {
       href: "window_location_href_value",
     };
@@ -29,7 +31,7 @@ describe("pageview", () => {
   });
 
   afterEach(() => {
-    vi.resetAllMocks();
+    jest.resetAllMocks();
   });
 
   test("pass a page as string", () => {
@@ -87,6 +89,8 @@ describe("pageview", () => {
       config: { id: 1 },
     });
 
+    delete global.window;
+
     expect(() => {
       pageview("/");
     }).not.toThrow();
@@ -97,19 +101,16 @@ describe("pageview", () => {
       const app = createApp();
       const router = createRouter({
         history: createMemoryHistory(),
-        routes: [
-          { path: "/", component: Home },
-          { path: "/about", component: About },
-        ],
+        routes: [{ path: "/" }, { path: "/about", component: About }],
       });
-
-      app.use(router);
 
       app.use(VueGtag, {
         config: {
           id: 1,
         },
       });
+
+      app.use(router);
 
       router.push("/about?foo=bar");
 
@@ -136,10 +137,7 @@ describe("pageview", () => {
 
       const router = createRouter({
         history: createMemoryHistory(),
-        routes: [
-          { path: "/", component: Home },
-          { path: "/about", component: About },
-        ],
+        routes: [{ path: "/" }, { path: "/about", component: About }],
       });
 
       app.use(router);
@@ -179,7 +177,7 @@ describe("pageview", () => {
             id: 1,
           },
         },
-        router,
+        router
       );
 
       router.push("/about");

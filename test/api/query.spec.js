@@ -1,16 +1,17 @@
-import query from "@/api/query";
-import VueGtag from "@/index";
 import { createApp } from "vue";
+import VueGtag from "@/index";
+import query from "@/api/query";
 
 describe("query", () => {
-  const _window = window;
+  let _window = window;
 
   beforeEach(() => {
     global.window = _window;
+    delete global.window.gtag;
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   test("passes argumemets to the gtag instance", () => {
@@ -18,7 +19,7 @@ describe("query", () => {
 
     app.use(VueGtag);
 
-    vi.spyOn(window, "gtag").mockReturnValue();
+    jest.spyOn(window, "gtag").mockReturnValue();
 
     query("foo", "bar");
 
@@ -32,7 +33,7 @@ describe("query", () => {
       globalObjectName: "foo",
     });
 
-    vi.spyOn(window, "foo").mockReturnValue();
+    jest.spyOn(window, "foo").mockReturnValue();
 
     query("foo", "bar");
 

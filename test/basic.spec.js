@@ -1,12 +1,12 @@
-import bootstrap from "@/bootstrap";
-import VueGtag from "@/index";
 import { createApp } from "vue";
+import VueGtag from "@/index";
+import bootstrap from "@/bootstrap";
 
-vi.mock("@/bootstrap");
+jest.mock("@/bootstrap");
 
 describe("basic", () => {
   afterEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   test("installs plugin", () => {
@@ -14,30 +14,31 @@ describe("basic", () => {
 
     app.use(VueGtag);
 
-    expect(
-      Object.keys(app.config.globalProperties.$gtag),
-    ).toMatchInlineSnapshot(`
-			[
-			  "query",
-			  "config",
-			  "optOut",
-			  "optIn",
-			  "pageview",
-			  "screenview",
-			  "exception",
-			  "linker",
-			  "time",
-			  "set",
-			  "refund",
-			  "purchase",
-			  "customMap",
-			  "event",
-			]
-		`);
+    expect(Object.keys(app.config.globalProperties.$gtag))
+      .toMatchInlineSnapshot(`
+      Array [
+        "query",
+        "config",
+        "optOut",
+        "optIn",
+        "pageview",
+        "screenview",
+        "exception",
+        "linker",
+        "time",
+        "set",
+        "refund",
+        "purchase",
+        "customMap",
+        "event",
+      ]
+    `);
   });
 
   test("installs plugin without window object", () => {
     const app = createApp();
+
+    delete global.window;
 
     expect(() => {
       app.use(VueGtag);

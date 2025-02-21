@@ -1,7 +1,7 @@
-import event from "@/api/event";
 import { getOptions } from "@/options";
 import { getRouter } from "@/router";
 import { getPathWithBase, isBrowser } from "@/utils";
+import event from "@/api/event";
 
 export default (param) => {
   if (!isBrowser()) {
@@ -20,7 +20,7 @@ export default (param) => {
       pageTrackerPrependBase: useBase,
     } = getOptions();
     const router = getRouter();
-    const base = router?.options.base;
+    const base = router && router.options.base;
     const path = useFullPath ? param.fullPath : param.path;
 
     template = {

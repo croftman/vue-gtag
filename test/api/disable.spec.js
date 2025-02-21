@@ -1,10 +1,10 @@
+import { createApp } from "vue";
 import disable from "@/api/disable";
 import VueGtag from "@/index";
-import { createApp } from "vue";
 
 describe("disable", () => {
   afterEach(() => {
-    vi.resetAllMocks();
+    jest.resetAllMocks();
   });
 
   test("turns off tracking", () => {

@@ -1,6 +1,6 @@
-import * as api from "@/api";
-import { getOptions } from "@/options";
 import { isBrowser } from "@/utils";
+import { getOptions } from "@/options";
+import * as api from "@/api";
 
 export default () => {
   if (!isBrowser()) {
@@ -11,8 +11,8 @@ export default () => {
 
   if (window[globalObjectName] == null) {
     window[globalDataLayerName] = window[globalDataLayerName] || [];
-    window[globalObjectName] = (...args) => {
-      window[globalDataLayerName].push(args);
+    window[globalObjectName] = function () {
+      window[globalDataLayerName].push(arguments);
     };
   }
 

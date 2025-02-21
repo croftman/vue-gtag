@@ -1,6 +1,6 @@
 declare module "vue-gtag" {
   import type { App } from "vue";
-  import type { Router, RouteLocationNormalized } from "vue-router";
+  import type { Router } from "vue-router";
 
   /**
    * Types copied from @types/gtag.js.
@@ -9,18 +9,10 @@ declare module "vue-gtag" {
    */
   namespace Gtag {
     interface Gtag {
-      (
-        command: string,
-        targetId: string,
-        config?: ControlParams | EventParams | CustomParams,
-      ): void;
-      (command: "set", config: CustomParams): void;
-      (command: "js", config: Date): void;
-      (
-        command: "event",
-        eventName: EventNames | string,
-        eventParams?: ControlParams | EventParams | CustomParams,
-      ): void;
+      (command: string, targetId: string, config?: ControlParams | EventParams | CustomParams): void;
+      (command: 'set', config: CustomParams): void;
+      (command: 'js', config: Date): void;
+      (command: 'event', eventName: EventNames | string, eventParams?: ControlParams | EventParams | CustomParams): void;
     }
 
     interface CustomParams {
@@ -34,30 +26,29 @@ declare module "vue-gtag" {
       event_timeout?: number;
     }
 
-    type EventNames =
-      | "add_payment_info"
-      | "add_to_cart"
-      | "add_to_wishlist"
-      | "begin_checkout"
-      | "checkout_progress"
-      | "exception"
-      | "generate_lead"
-      | "login"
-      | "page_view"
-      | "purchase"
-      | "refund"
-      | "remove_from_cart"
-      | "screen_view"
-      | "search"
-      | "select_content"
-      | "set_checkout_option"
-      | "share"
-      | "sign_up"
-      | "timing_complete"
-      | "view_item"
-      | "view_item_list"
-      | "view_promotion"
-      | "view_search_results";
+    type EventNames = 'add_payment_info'
+      | 'add_to_cart'
+      | 'add_to_wishlist'
+      | 'begin_checkout'
+      | 'checkout_progress'
+      | 'exception'
+      | 'generate_lead'
+      | 'login'
+      | 'page_view'
+      | 'purchase'
+      | 'refund'
+      | 'remove_from_cart'
+      | 'screen_view'
+      | 'search'
+      | 'select_content'
+      | 'set_checkout_option'
+      | 'share'
+      | 'sign_up'
+      | 'timing_complete'
+      | 'view_item'
+      | 'view_item_list'
+      | 'view_promotion'
+      | 'view_search_results';
 
     interface EventParams {
       checkout_option?: string;
@@ -80,7 +71,7 @@ declare module "vue-gtag" {
       value?: number;
       event_label?: string;
       event_category?: string;
-      non_interaction?: boolean;
+      non_interaction?: boolean
     }
 
     type Currency = string | number;
@@ -178,10 +169,7 @@ declare module "vue-gtag" {
    * @param action string that will appear as the event action in Google Analytics Event reports
    * @param eventParams
    */
-  export type GtagEvent = (
-    action: Gtag.EventNames | string,
-    eventParams?: Gtag.ControlParams | Gtag.EventParams | Gtag.CustomParams,
-  ) => void;
+  export type GtagEvent = (action: Gtag.EventNames | string, eventParams?: Gtag.ControlParams | Gtag.EventParams | Gtag.CustomParams) => void;
 
   /**
    * Send an ad-hoc Google Analytics pageview.
@@ -244,9 +232,7 @@ declare module "vue-gtag" {
    *
    * @see https://developers.google.com/gtagjs/devguide/configure
    */
-  export type GtagConfig = (
-    config?: Gtag.ControlParams | Gtag.EventParams | Gtag.CustomParams,
-  ) => void;
+  export type GtagConfig = (config?: Gtag.ControlParams | Gtag.EventParams | Gtag.CustomParams) => void;
 
   /**
    * Measure a full refund of a transaction.
@@ -281,22 +267,11 @@ declare module "vue-gtag" {
 
   export interface PluginOptions {
     appName?: string;
-    pageTrackerTemplate?: (
-      to: RouteLocationNormalized,
-      from: RouteLocationNormalized,
-    ) => PageView;
-    onBeforeTrack?: (
-      to: RouteLocationNormalized,
-      from?: RouteLocationNormalized,
-    ) => void;
-    onAfterTrack?: (
-      to: RouteLocationNormalized,
-      from?: RouteLocationNormalized,
-    ) => void;
-    onReady?: (gtag: Gtag.Gtag) => void;
+    pageTrackerTemplate?: () => PageView;
+    onBeforeTrack?: () => void;
+    onAfterTrack?: () => void;
+    onReady?: () => void;
     enabled?: boolean;
-    deferScriptLoad?: boolean;
-    customResourceURL?: string;
     disableScriptLoad?: boolean;
     bootstrap?: boolean;
     globalObjectName?: string;
@@ -308,7 +283,11 @@ declare module "vue-gtag" {
   }
 
   export class VueGtagPlugin {
-    static install(app: App, options: PluginOptions, router?: Router): void;
+    static install(
+      app: App,
+      options: PluginOptions,
+      router?: Router
+    ): void;
   }
 
   export function bootstrap(): Promise<Gtag.Gtag>;
