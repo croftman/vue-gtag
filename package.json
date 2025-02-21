@@ -111,5 +111,6 @@
     "vue": "^3.0.0",
     "vue-router": "^4.0.6",
     "vue-template-compiler": "^2.6.10"
-  }
+  },
+  "packageManager": "yarn@1.22.22"
 }
